@@ -154,3 +154,16 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_TIMEZONE = "America/Bogota"
+
+CELERY_BEAT_SCHEDULE = {
+    "revisar-recordatorios": {
+        "task": "apps.habits.tasks.check_reminders",
+        "schedule": 60.0,  
+    },
+}
+
+REMINDER_WEBHOOK_URL = os.getenv("REMINDER_WEBHOOK_URL", "https://webhook.site/8e64ac5e-1488-4fd2-b005-b72e7204d59a")  
