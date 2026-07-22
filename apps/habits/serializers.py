@@ -9,11 +9,12 @@ class DayOfWeekSerializer(serializers.ModelSerializer):
 
 
 class HabitSerializer(serializers.ModelSerializer):
-    # PrimaryKeyRelatedField: el cliente envía una lista de IDs de días
-    # (ej. [0, 2, 4]), no objetos completos — así se maneja un M2M en DRF.
-    scheduled_days = serializers.PrimaryKeyRelatedField(
-        queryset=DayOfWeek.objects.all(), many=True
+    scheduled_days = serializers.SlugRelatedField(
+        slug_field="number",
+        queryset=DayOfWeek.objects.all(),
+        many=True
     )
+    # el resto de la clase queda igual
 
     class Meta:
         model = Habit
