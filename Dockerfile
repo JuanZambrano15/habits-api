@@ -24,15 +24,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 \
     && rm -rf /var/lib/apt/lists/*
 
-# Creamos el usuario ANTES de copiar nada, para que /home/appuser
-# ya sea de su propiedad desde el inicio (evita el problema de permisos).
 RUN useradd --create-home appuser
 
 WORKDIR /app
 
-# Copiamos los paquetes a la carpeta personal de appuser, NO a /root/.local
 COPY --from=builder /root/.local /home/appuser/.local
 COPY --chown=appuser:appuser . .
+
+# NUEVO: le da la propiedad de /app completa a appuser, no solo a los
+# archivos copiados — necesario para que pueda crear staticfiles/ despues.
+RUN chown -R appuser:appuser /app
+
 RUN chmod +x entrypoint.sh
 
 ENV PATH=/home/appuser/.local/bin:$PATH
@@ -41,7 +43,5 @@ ENV PYTHONUNBUFFERED=1
 USER appuser
 
 EXPOSE 8000
-
-RUN python manage.py collectstatic --noinput
 
 CMD ["./entrypoint.sh"]
