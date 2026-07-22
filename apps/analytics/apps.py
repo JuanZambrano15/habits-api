@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class HabitsConfig(AppConfig):
+class AnalyticsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.habits'
+    name = 'apps.analytics'
