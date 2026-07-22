@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import DayOfWeek, Habit, CompletionRecord
 
-# Register your models here.
+admin.site.register(DayOfWeek)
+admin.site.register(Habit)
+admin.site.register(CompletionRecord)
