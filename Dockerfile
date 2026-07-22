@@ -33,6 +33,7 @@ WORKDIR /app
 # Copiamos los paquetes a la carpeta personal de appuser, NO a /root/.local
 COPY --from=builder /root/.local /home/appuser/.local
 COPY --chown=appuser:appuser . .
+RUN chmod +x entrypoint.sh
 
 ENV PATH=/home/appuser/.local/bin:$PATH
 ENV PYTHONUNBUFFERED=1
@@ -41,4 +42,6 @@ USER appuser
 
 EXPOSE 8000
 
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+RUN python manage.py collectstatic --noinput
+
+CMD ["./entrypoint.sh"]
