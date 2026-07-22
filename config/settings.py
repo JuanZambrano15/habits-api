@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "apps.habits",
     "apps.analytics",
     "rest_framework_simplejwt.token_blacklist",
+    "drf_spectacular",
 ]
 
 AUTH_USER_MODEL = "accounts.User"  
@@ -141,11 +142,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "rest_framework.authentication.SessionAuthentication",  # se queda para poder seguir usando /admin/
+        "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema", 
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Habits API",
+    "DESCRIPTION": "API para gestion de habitos con recordatorios automaticos y analiticas de cumplimiento.",
+    "VERSION": "1.0.0",
 }
 
 SIMPLE_JWT = {
